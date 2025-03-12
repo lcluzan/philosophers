@@ -4,16 +4,15 @@ SHELL			=	/bin/bash
 CC				=	cc
 CFLAGS			=	-g -Wall -Wextra -Werror
 
-SRCS_DIR		=	srcs/
+SRCS_DIR		=	srcs/init.c/main.c/monitor.c/philosopher.c/time.c/utils.c
 C_SRCS			=	$(addprefix $(SRCS_DIR), $(SRCS_LIST))
-C_SRCS_LIST		=	
+C_SRCS_LIST		=
 
 OBJS_DIR		=	objs/
 OBJS_LIST		:=	$(patsubst %.c, %.o, $(C_SRCS_LIST))
 OBJS			=	$(addprefix $(OBJS_DIR), $(OBJS_LIST))
 
-HEADERS			=	-I ./includes -I ./libft
-LIBS			=	-L libft -lft
+HEADERS			=	-I ./includes
 
 .PHONY : all clean fclean re
 
