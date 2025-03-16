@@ -5,15 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 16:02:33 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/12 16:13:14 by lcluzan          ###   ########.fr       */
+/*   Created: 2025/03/16 16:12:56 by lcluzan           #+#    #+#             */
+/*   Updated: 2025/03/16 18:12:57 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-/* Retourne le temps actuel en millisecondes */
-long long	get_time(void)
+long	get_time_ms(void)
 {
 	struct timeval	tv;
 
@@ -21,18 +20,22 @@ long long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-/* Attente précise en millisecondes */
-void	precise_sleep(long long ms)
+void	ft_sleep(long ms)
 {
-	long long	start;
-	long long	current;
+	long	start;
+	long	current;
 
-	start = get_time();
+	start = get_time_ms();
 	while (1)
 	{
-		current = get_time();
+		current = get_time_ms();
 		if (current - start >= ms)
 			break ;
-		usleep(100);
+		usleep(500);
 	}
+}
+
+long	time_since_start(t_table *table)
+{
+	return (get_time_ms() - table->start_time);
 }
