@@ -6,12 +6,19 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:13:18 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:47 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/16 18:38:08 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
+/**
+ * @brief Fait prendre les fourchettes à un philosophe
+ * Gère la prise des fourchettes dans un ordre différent selon l'ID du philosophe
+ * pour éviter les deadlocks.
+ *
+ * @param philo Philosophe qui prend les fourchettes
+ */
 void	take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
@@ -30,6 +37,13 @@ void	take_forks(t_philo *philo)
 	}
 }
 
+/**
+ * @brief Fait manger un philosophe
+ * Met à jour l'heure du dernier repas, incrémente le compteur de repas,
+ * et gère la libération des fourchettes après le repas.
+ *
+ * @param philo Philosophe qui mange
+ */
 void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex);
@@ -46,6 +60,13 @@ void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 }
 
+/**
+ * @brief Fait dormir puis penser un philosophe
+ * Simule les phases de sommeil et de réflexion d'un philosophe
+ * en attendant les temps spécifiés.
+ *
+ * @param philo Philosophe qui dort puis pense
+ */
 void	sleep_and_think(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
@@ -53,6 +74,14 @@ void	sleep_and_think(t_philo *philo)
 	print_status(philo, "is thinking");
 }
 
+/**
+ * @brief Routine principale d'un philosophe
+ * Gère le cycle de vie d'un philosophe: prendre les fourchettes,
+ * manger, dormir et penser, avec un cas spécial pour un seul philosophe.
+ *
+ * @param arg Pointeur vers la structure du philosophe
+ * @return NULL à la fin de l'exécution
+ */
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;

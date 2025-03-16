@@ -6,12 +6,20 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:09:47 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:12:11 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/16 18:35:27 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
+/**
+ * @brief Démarre la simulation des philosophes
+ * Crée les threads pour chaque philosophe et pour le moniteur,
+ * puis attend leur terminaison.
+ *
+ * @param table Structure principale contenant les données de la simulation
+ * @return SUCCESS si la simulation s'est déroulée correctement, ERROR sinon
+ */
 static int	start_simulation(t_table *table)
 {
 	int			i;
@@ -40,6 +48,15 @@ static int	start_simulation(t_table *table)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Point d'entrée du programme
+ * Vérifie les arguments, initialise la simulation, la démarre
+ * et nettoie les ressources à la fin.
+ *
+ * @param argc Nombre d'arguments fournis au programme
+ * @param argv Tableau des arguments
+ * @return SUCCESS en cas de succès, ERROR sinon
+ */
 int	main(int argc, char **argv)
 {
 	t_table	table;

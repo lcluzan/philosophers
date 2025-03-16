@@ -6,12 +6,20 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:11:03 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:11:56 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/16 18:36:08 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
+/**
+ * @brief Initialise tous les mutex nécessaires pour la simulation
+ * Crée les mutex pour l'impression, l'état de la simulation, les fourchettes
+ * et les repas de chaque philosophe.
+ *
+ * @param table Structure principale contenant les données de la simulation
+ * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ */
 int	init_mutexes(t_table *table)
 {
 	int	i;
@@ -34,6 +42,13 @@ int	init_mutexes(t_table *table)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Initialise les fourchettes pour la simulation
+ * Alloue de la mémoire pour les fourchettes et initialise leurs propriétés.
+ *
+ * @param table Structure principale contenant les données de la simulation
+ * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ */
 int	init_forks(t_table *table)
 {
 	int		i;
@@ -52,6 +67,14 @@ int	init_forks(t_table *table)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Initialise les philosophes pour la simulation
+ * Alloue de la mémoire pour les philosophes, initialise leurs propriétés
+ * et attribue les fourchettes gauche et droite à chaque philosophe.
+ *
+ * @param table Structure principale contenant les données de la simulation
+ * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ */
 int	init_philos(t_table *table)
 {
 	int		i;
@@ -77,6 +100,15 @@ int	init_philos(t_table *table)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Vérifie la validité des arguments fournis
+ * S'assure que le nombre de philosophes, les temps et le nombre de repas
+ * sont des valeurs positives et logiques.
+ *
+ * @param table Structure principale contenant les données de la simulation
+ * @param argc Nombre d'arguments fournis au programme
+ * @return SUCCESS si les arguments sont valides, ERROR sinon
+ */
 int	check_args(t_table *table, int argc)
 {
 	if (table->philo_count <= 0 || table->time_to_die <= 0
@@ -86,6 +118,16 @@ int	check_args(t_table *table, int argc)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Initialise la structure principale de la simulation
+ * Parse les arguments, vérifie leur validité et initialise les fourchettes,
+ * les philosophes et les mutex nécessaires.
+ *
+ * @param table Structure principale à initialiser
+ * @param argc Nombre d'arguments fournis au programme
+ * @param argv Tableau des arguments
+ * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ */
 int	init_table(t_table *table, int argc, char **argv)
 {
 	table->philo_count = ft_atoi(argv[1]);
