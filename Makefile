@@ -4,9 +4,9 @@ SHELL			=	/bin/bash
 CC				=	cc
 CFLAGS			=	-g -Wall -Wextra -Werror
 
-SRCS_DIR		=	srcs/init.c/main.c/monitor.c/philosopher.c/time.c/utils.c
+SRCS_DIR		=	srcs/
+C_SRCS_LIST		=	main.c init.c utils.c time.c routine.c monitor.c cleanup.c
 C_SRCS			=	$(addprefix $(SRCS_DIR), $(SRCS_LIST))
-C_SRCS_LIST		=
 
 OBJS_DIR		=	objs/
 OBJS_LIST		:=	$(patsubst %.c, %.o, $(C_SRCS_LIST))
@@ -20,14 +20,13 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@echo "\033[37mLinking...\033[0m"
-	@$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+	@$(CC) $(CFLAGS) $^ -o $@
 	@echo "\033[32mBinary \033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c includes/*.h
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 	@echo "\033[34mCompilation of \033[36m$(notdir $<)\033[34m done.\033[0m"
-
 
 clean :
 	@rm -rf $(OBJS_DIR)
