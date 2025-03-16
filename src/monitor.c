@@ -5,97 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 15:57:16 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/12 15:59:57 by lcluzan          ###   ########.fr       */
+/*   Created: 2025/03/16 16:13:45 by lcluzan           #+#    #+#             */
+/*   Updated: 2025/03/16 18:12:34 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-/* Vérifie si un philosophe est mort */
-int	is_philosopher_dead(t_data *data, t_philosopher *philo)
+void	set_simulation_status(t_table *table, bool status)
 {
-	long long	current_time;
-
-	pthread_mutex_lock(&(data->meal_mutex));
-	current_time = get_time();
-	if (!philo->is_eating && current_time - philo->last_meal_time
-		> data->time_to_die)
-	{
-		pthread_mutex_unlock(&(data->meal_mutex));
-		return (1);
-	}
-	pthread_mutex_unlock(&(data->meal_mutex));
-	return (0);
+	pthread_mutex_lock(&table->running_mutex);
+	table->simulation_running = status;
+	pthread_mutex_unlock(&table->running_mutex);
 }
 
-/* Vérifie si tous les philosophes ont mangé suffisamment */
-int	all_philosophers_ate_enough(t_data *data)
+bool	check_death(t_table *table, int *i)
+{
+	long	time_now;
+	long	time_last_meal;
+
+	pthread_mutex_lock(&table->philos[*i].meal_mutex);
+	time_now = get_time_ms();
+	time_last_meal = table->philos[*i].last_meal_time;
+	if (!table->philos[*i].is_eating && time_last_meal > 0
+		&& time_now - time_last_meal > table->time_to_die)
+	{
+		pthread_mutex_unlock(&table->philos[*i].meal_mutex);
+		pthread_mutex_lock(&table->print_mutex);
+		printf("%ld %d died\n", time_since_start(table), table->philos[*i].id);
+		pthread_mutex_unlock(&table->print_mutex);
+		set_simulation_status(table, false);
+		return (true);
+	}
+	pthread_mutex_unlock(&table->philos[*i].meal_mutex);
+	*i = (*i + 1) % table->philo_count;
+	return (false);
+}
+
+bool	check_all_ate(t_table *table)
 {
 	int	i;
 	int	finished;
 
-	if (data->nb_must_eat <= 0)
-		return (0);
+	if (table->must_eat_count < 0)
+		return (false);
 	i = 0;
-	finished = 1;
-	while (i < data->nb_philos)
+	finished = 0;
+	while (i < table->philo_count)
 	{
-		if (data->philosophers[i].meals_eaten < data->nb_must_eat)
-		{
-			finished = 0;
-			break ;
-		}
+		pthread_mutex_lock(&table->philos[i].meal_mutex);
+		if (table->philos[i].meals_eaten >= table->must_eat_count)
+			finished++;
+		pthread_mutex_unlock(&table->philos[i].meal_mutex);
 		i++;
 	}
-	return (finished);
+	if (finished == table->philo_count)
+	{
+		set_simulation_status(table, false);
+		return (true);
+	}
+	return (false);
 }
 
-/* Stoppe la simulation */
-void	stop_simulation(t_data *data)
-{
-	pthread_mutex_lock(&(data->death_mutex));
-	data->simulation_stop = 1;
-	pthread_mutex_unlock(&(data->death_mutex));
-}
-
-/* Affiche le message de mort d'un philosophe */
-void	print_death(t_data *data, int id)
-{
-	long long	current_time;
-
-	current_time = get_time() - data->start_time;
-	pthread_mutex_lock(&(data->print_mutex));
-	printf("%lld %d died\n", current_time, id);
-	pthread_mutex_unlock(&(data->print_mutex));
-}
-
-/* Fonction principale de surveillance */
 void	*monitor_routine(void *arg)
 {
-	t_data	*data;
+	t_table	*table;
 	int		i;
 
-	data = (t_data *)arg;
-	while (!data->simulation_stop)
+	table = (t_table *)arg;
+	i = 0;
+	while (get_simulation_status(table))
 	{
-		i = 0;
-		while (i < data->nb_philos)
-		{
-			if (is_philosopher_dead(data, &(data->philosophers[i])))
-			{
-				print_death(data, data->philosophers[i].id);
-				stop_simulation(data);
-				return (NULL);
-			}
-			i++;
-		}
-		if (all_philosophers_ate_enough(data))
-		{
-			stop_simulation(data);
-			return (NULL);
-		}
-		precise_sleep(1);
+		if (check_death(table, &i))
+			break ;
+		if (check_all_ate(table))
+			break ;
+		usleep(1000);
 	}
 	return (NULL);
 }
