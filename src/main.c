@@ -5,90 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 16:20:41 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/12 16:21:58 by lcluzan          ###   ########.fr       */
+/*   Created: 2025/03/16 16:09:47 by lcluzan           #+#    #+#             */
+/*   Updated: 2025/03/16 18:12:11 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-/* Crée les threads des philosophes */
-int	create_philosophers(t_data *data)
+static int	start_simulation(t_table *table)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		if (pthread_create(&(data->philosophers[i].thread), NULL,
-				philosopher_routine, &(data->philosophers[i])) != 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-/* Attend la fin des threads */
-void	join_philosophers(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		pthread_join(data->philosophers[i].thread, NULL);
-		i++;
-	}
-}
-
-/* Libère les ressources allouées */
-void	cleanup(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		pthread_mutex_destroy(&(data->forks[i].mutex));
-		i++;
-	}
-	pthread_mutex_destroy(&(data->print_mutex));
-	pthread_mutex_destroy(&(data->meal_mutex));
-	pthread_mutex_destroy(&(data->death_mutex));
-	free(data->philosophers);
-	free(data->forks);
-}
-
-/* Fonction principale */
-int	main(int argc, char **argv)
-{
-	t_data		data;
+	int			i;
 	pthread_t	monitor;
 
-	if (!check_args(argc, argv))
+	table->start_time = get_time_ms();
+	i = 0;
+	while (i < table->philo_count)
 	{
-		printf("Error: Invalid arguments\n");
-		return (1);
+		if (pthread_create(&table->philos[i].thread, NULL,
+				philo_routine, &table->philos[i]))
+			return (ERROR);
+		i++;
 	}
-	if (!init_all(&data, argc, argv))
+	if (pthread_create(&monitor, NULL, monitor_routine, table))
+		return (ERROR);
+	i = 0;
+	while (i < table->philo_count)
 	{
-		printf("Error: Initialization failed\n");
-		return (1);
+		if (pthread_join(table->philos[i].thread, NULL))
+			return (ERROR);
+		i++;
 	}
-	if (!create_philosophers(&data))
+	if (pthread_join(monitor, NULL))
+		return (ERROR);
+	return (SUCCESS);
+}
+
+int	main(int argc, char **argv)
+{
+	t_table	table;
+
+	if (argc != 5 && argc != 6)
+		return (error_exit("Usage: ./philo number_of_philosophers time_to_die \
+time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]"));
+	if (init_table(&table, argc, argv))
+		return (ERROR);
+	if (start_simulation(&table))
 	{
-		printf("Error: Thread creation failed\n");
-		cleanup(&data);
-		return (1);
+		cleanup(&table);
+		return (ERROR);
 	}
-	if (pthread_create(&monitor, NULL, monitor_routine, &data) != 0)
-	{
-		printf("Error: Monitor thread creation failed\n");
-		cleanup(&data);
-		return (1);
-	}
-	join_philosophers(&data);
-	pthread_join(monitor, NULL);
-	cleanup(&data);
-	return (0);
+	cleanup(&table);
+	return (SUCCESS);
 }
