@@ -6,7 +6,7 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:13:18 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:38:08 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/16 19:31:46 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	eat(t_philo *philo)
 void	sleep_and_think(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
-	ft_sleep(philo->table->time_to_sleep);
+	//ft_sleep(philo->table->time_to_sleep);
+	ft_sleep(1000);
 	print_status(philo, "is thinking");
 }
 
