@@ -6,7 +6,7 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:45:02 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/12 15:48:17 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:09:26 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,75 +18,78 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <limits.h>
+# include <stdbool.h>
+
+# define SUCCESS 0
+# define ERROR 1
 
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
 	int				id;
+	bool			is_taken;
 }	t_fork;
 
-typedef struct s_philosopher
+typedef struct s_philo
 {
 	int				id;
-	int				meals_eaten;
-	int				is_eating;
-	long long		last_meal_time;
 	pthread_t		thread;
 	t_fork			*left_fork;
 	t_fork			*right_fork;
-	struct s_data	*data;
-}	t_philosopher;
+	long			last_meal_time;
+	int				meals_eaten;
+	bool			is_eating;
+	pthread_mutex_t	meal_mutex;
+	struct s_table	*table;
+}	t_philo;
 
-typedef struct s_data
+typedef struct s_table
 {
-    int             nb_philos;
-    int             time_to_die;
-    int             time_to_eat;
-    int             time_to_sleep;
-    int             nb_must_eat;
-    int             simulation_stop;
-    long long       start_time;
-    t_philosopher   *philosophers;
-    t_fork          *forks;
-    pthread_mutex_t print_mutex;
-    pthread_mutex_t meal_mutex;
-    pthread_mutex_t death_mutex;
-} t_data;
-
-/* main.c */
-int         create_philosophers(t_data *data);
-void        join_philosophers(t_data *data);
-void        cleanup(t_data *data);
+	int				philo_count;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat_count;
+	bool			simulation_running;
+	long			start_time;
+	t_philo			*philos;
+	t_fork			*forks;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	running_mutex;
+}	t_table;
 
 /* init.c */
-int         init_data(t_data *data, int argc, char **argv);
-int         init_forks(t_data *data);
-int         init_mutexes(t_data *data);
-void        init_philosophers(t_data *data);
-int         init_all(t_data *data, int argc, char **argv);
+int		init_table(t_table *table, int argc, char **argv);
+int		init_philos(t_table *table);
+int		init_forks(t_table *table);
+int		init_mutexes(t_table *table);
 
-/* philosopher.c */
-void        philo_eat(t_philosopher *philo);
-void        philo_sleep(t_philosopher *philo);
-void        philo_think(t_philosopher *philo);
-int         simulation_should_continue(t_data *data);
-void        *philosopher_routine(void *arg);
+/* routine.c */
+void	*philo_routine(void *arg);
+void	take_forks(t_philo *philo);
+void	eat(t_philo *philo);
+void	sleep_and_think(t_philo *philo);
 
 /* monitor.c */
-int         is_philosopher_dead(t_data *data, t_philosopher *philo);
-int         all_philosophers_ate_enough(t_data *data);
-void        stop_simulation(t_data *data);
-void        print_death(t_data *data, int id);
-void        *monitor_routine(void *arg);
+void	*monitor_routine(void *arg);
+bool	check_death(t_table *table, int *i);
+bool	check_all_ate(t_table *table);
+bool	simulation_should_stop(t_table *table);
+void	set_simulation_status(t_table *table, bool status);
 
 /* time.c */
-long long   get_time(void);
-void        precise_sleep(long long ms);
+long	get_time_ms(void);
+void	ft_sleep(long ms);
+long	time_since_start(t_table *table);
 
 /* utils.c */
-void        print_status(t_data *data, int id, char *status);
-int         safe_atoi(const char *str);
-int         check_args(int argc, char **argv);
+int		ft_atoi(const char *str);
+void	print_status(t_philo *philo, char *status);
+int		error_exit(char *msg);
+bool	get_simulation_status(t_table *table);
+
+/* cleanup.c */
+void	cleanup(t_table *table);
+void	destroy_mutexes(t_table *table);
 
 #endif
