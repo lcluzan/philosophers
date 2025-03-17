@@ -15,9 +15,10 @@
 /**
  * @brief Fait prendre les fourchettes à un philosophe
  * Gère la prise des fourchettes dans un ordre différent selon l'ID du philosophe
- * pour éviter les deadlocks.
+ * pour éviter les deadlocks. Vérifie l'état de la simulation entre les prises.
  *
  * @param philo Philosophe qui prend les fourchettes
+ * @return true si les deux fourchettes ont été prises, false si la simulation s'est arrêtée
  */
 void	take_forks(t_philo *philo)
 {
@@ -49,9 +50,9 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->is_eating = true;
 	philo->last_meal_time = get_time_ms();
-	print_status(philo, "is eating");
 	pthread_mutex_unlock(&philo->meal_mutex);
-	ft_sleep(philo->table->time_to_eat);
+	print_status(philo, "is eating");
+	ft_sleep(philo->table->time_to_eat, philo->table);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->is_eating = false;
 	philo->meals_eaten++;
@@ -70,8 +71,7 @@ void	eat(t_philo *philo)
 void	sleep_and_think(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
-	//ft_sleep(philo->table->time_to_sleep);
-	ft_sleep(1000);
+	ft_sleep(philo->table->time_to_sleep, philo->table);
 	print_status(philo, "is thinking");
 }
 
@@ -91,11 +91,11 @@ void	*philo_routine(void *arg)
 	if (philo->table->philo_count == 1)
 	{
 		print_status(philo, "has taken a fork");
-		ft_sleep(philo->table->time_to_die);
+		ft_sleep(philo->table->time_to_die, philo->table);
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		ft_sleep(philo->table->time_to_eat / 2);
+		ft_sleep(philo->table->time_to_eat / 2, philo->table);
 	while (get_simulation_status(philo->table))
 	{
 		take_forks(philo);

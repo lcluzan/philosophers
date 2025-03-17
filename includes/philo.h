@@ -79,7 +79,7 @@ void	set_simulation_status(t_table *table, bool status);
 
 /* time.c */
 long	get_time_ms(void);
-void	ft_sleep(long ms);
+void	ft_sleep(long ms, t_table *table);
 long	time_since_start(t_table *table);
 
 /* utils.c */

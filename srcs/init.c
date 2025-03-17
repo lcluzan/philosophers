@@ -91,7 +91,7 @@ int	init_philos(t_table *table)
 		next = (i + 1) % table->philo_count;
 		table->philos[i].id = i + 1;
 		table->philos[i].meals_eaten = 0;
-		table->philos[i].last_meal_time = 0;
+		table->philos[i].last_meal_time = get_time_ms();
 		table->philos[i].is_eating = false;
 		table->philos[i].table = table;
 		table->philos[i].left_fork = &table->forks[i];

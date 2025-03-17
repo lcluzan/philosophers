@@ -30,17 +30,19 @@ long	get_time_ms(void)
 /**
  * @brief Fonction d'attente précise en millisecondes
  * Implémente une attente active plus précise que usleep
- * pour les durées spécifiées.
+ * pour les durées spécifiées. Vérifie périodiquement si la simulation
+ * doit continuer et retourne prématurément si elle doit s'arrêter.
  *
  * @param ms Durée d'attente en millisecondes
+ * @param table Structure principale contenant les données de la simulation
  */
-void	ft_sleep(long ms)
+void	ft_sleep(long ms, t_table *table)
 {
 	long	start;
 	long	current;
 
 	start = get_time_ms();
-	while (1)
+	while (get_simulation_status(table))
 	{
 		current = get_time_ms();
 		if (current - start >= ms)
