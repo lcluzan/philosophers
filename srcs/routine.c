@@ -6,19 +6,17 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:13:18 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 19:31:46 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 19:19:26 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Fait prendre les fourchettes à un philosophe
- * Gère la prise des fourchettes dans un ordre différent selon l'ID du philosophe
- * pour éviter les deadlocks. Vérifie l'état de la simulation entre les prises.
+ * @brief Makes a philosopher take forks.
+ * Handles fork-taking order to prevent deadlocks.
  *
- * @param philo Philosophe qui prend les fourchettes
- * @return true si les deux fourchettes ont été prises, false si la simulation s'est arrêtée
+ * @param philo Philosopher taking forks.
  */
 void	take_forks(t_philo *philo)
 {
@@ -39,11 +37,9 @@ void	take_forks(t_philo *philo)
 }
 
 /**
- * @brief Fait manger un philosophe
- * Met à jour l'heure du dernier repas, incrémente le compteur de repas,
- * et gère la libération des fourchettes après le repas.
+ * @brief Simulates a philosopher sleeping and thinking.
  *
- * @param philo Philosophe qui mange
+ * @param philo Philosopher sleeping and thinking.
  */
 void	eat(t_philo *philo)
 {
@@ -62,11 +58,10 @@ void	eat(t_philo *philo)
 }
 
 /**
- * @brief Fait dormir puis penser un philosophe
- * Simule les phases de sommeil et de réflexion d'un philosophe
- * en attendant les temps spécifiés.
+ * @brief Prints a philosopher's status in a thread-safe manner.
  *
- * @param philo Philosophe qui dort puis pense
+ * @param philo Philosopher whose status is printed.
+ * @param status Description of the philosopher's action.
  */
 void	sleep_and_think(t_philo *philo)
 {
@@ -76,12 +71,12 @@ void	sleep_and_think(t_philo *philo)
 }
 
 /**
- * @brief Routine principale d'un philosophe
- * Gère le cycle de vie d'un philosophe: prendre les fourchettes,
- * manger, dormir et penser, avec un cas spécial pour un seul philosophe.
+ * @brief Main routine for philosopher threads.
+ * Handles the philosopher's cycle of taking forks, eating, sleeping, and
+ * thinking.
  *
- * @param arg Pointeur vers la structure du philosophe
- * @return NULL à la fin de l'exécution
+ * @param arg Pointer to philosopher structure.
+ * @return NULL when execution ends.
  */
 void	*philo_routine(void *arg)
 {

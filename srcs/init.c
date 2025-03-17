@@ -6,19 +6,18 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:11:03 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:36:08 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 18:38:06 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Initialise tous les mutex nécessaires pour la simulation
- * Crée les mutex pour l'impression, l'état de la simulation, les fourchettes
- * et les repas de chaque philosophe.
+ * @brief Initializes all mutexes required for the simulation.
+ * Sets up mutexes for printing, simulation status, forks, and philosopher meals.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ * @param table Main structure containing simulation data.
+ * @return SUCCESS if initialization succeeds, ERROR otherwise.
  */
 int	init_mutexes(t_table *table)
 {
@@ -43,11 +42,10 @@ int	init_mutexes(t_table *table)
 }
 
 /**
- * @brief Initialise les fourchettes pour la simulation
- * Alloue de la mémoire pour les fourchettes et initialise leurs propriétés.
+ * @brief Allocates and initializes forks for the simulation.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ * @param table Main structure containing simulation data.
+ * @return SUCCESS if initialization succeeds, ERROR otherwise.
  */
 int	init_forks(t_table *table)
 {
@@ -68,12 +66,11 @@ int	init_forks(t_table *table)
 }
 
 /**
- * @brief Initialise les philosophes pour la simulation
- * Alloue de la mémoire pour les philosophes, initialise leurs propriétés
- * et attribue les fourchettes gauche et droite à chaque philosophe.
+ * @brief Allocates and initializes philosophers.
+ * Assigns each philosopher their left and right forks.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ * @param table Main structure containing simulation data.
+ * @return SUCCESS if initialization succeeds, ERROR otherwise.
  */
 int	init_philos(t_table *table)
 {
@@ -101,13 +98,13 @@ int	init_philos(t_table *table)
 }
 
 /**
- * @brief Vérifie la validité des arguments fournis
- * S'assure que le nombre de philosophes, les temps et le nombre de repas
- * sont des valeurs positives et logiques.
+ * @brief Checks the validity of user-provided arguments.
+ * Ensures logical and positive values for philosopher count, time parameters,
+ * and meal count.
  *
- * @param table Structure principale contenant les données de la simulation
- * @param argc Nombre d'arguments fournis au programme
- * @return SUCCESS si les arguments sont valides, ERROR sinon
+ * @param table Main structure containing simulation data.
+ * @param argc Number of arguments provided.
+ * @return SUCCESS if valid, ERROR otherwise.
  */
 int	check_args(t_table *table, int argc)
 {
@@ -119,14 +116,14 @@ int	check_args(t_table *table, int argc)
 }
 
 /**
- * @brief Initialise la structure principale de la simulation
- * Parse les arguments, vérifie leur validité et initialise les fourchettes,
- * les philosophes et les mutex nécessaires.
+ * @brief Initializes the main simulation structure.
+ * Parses arguments, checks their validity, and initializes forks, philosophers,
+ * and mutexes.
  *
- * @param table Structure principale à initialiser
- * @param argc Nombre d'arguments fournis au programme
- * @param argv Tableau des arguments
- * @return SUCCESS si l'initialisation réussit, ERROR sinon
+ * @param table Structure to initialize.
+ * @param argc Number of arguments.
+ * @param argv Argument values.
+ * @return SUCCESS if initialization succeeds, ERROR otherwise.
  */
 int	init_table(t_table *table, int argc, char **argv)
 {

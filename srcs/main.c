@@ -6,19 +6,18 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:09:47 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:35:27 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 18:40:05 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Démarre la simulation des philosophes
- * Crée les threads pour chaque philosophe et pour le moniteur,
- * puis attend leur terminaison.
+ * @brief Starts the philosopher simulation.
+ * Creates threads for each philosopher and the monitoring thread.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return SUCCESS si la simulation s'est déroulée correctement, ERROR sinon
+ * @param table Main structure containing simulation data.
+ * @return SUCCESS if simulation runs correctly, ERROR otherwise.
  */
 static int	start_simulation(t_table *table)
 {
@@ -49,13 +48,13 @@ static int	start_simulation(t_table *table)
 }
 
 /**
- * @brief Point d'entrée du programme
- * Vérifie les arguments, initialise la simulation, la démarre
- * et nettoie les ressources à la fin.
+ * @brief Main entry point of the program.
+ * Validates arguments, initializes the simulation, starts it, and cleans up
+ * resources.
  *
- * @param argc Nombre d'arguments fournis au programme
- * @param argv Tableau des arguments
- * @return SUCCESS en cas de succès, ERROR sinon
+ * @param argc Number of arguments.
+ * @param argv Argument values.
+ * @return SUCCESS on success, ERROR otherwise.
  */
 int	main(int argc, char **argv)
 {

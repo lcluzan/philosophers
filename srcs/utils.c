@@ -6,18 +6,18 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:12:29 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:39:34 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 19:23:07 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Convertit une chaîne de caractères en entier
- * Gère les signes, les espaces et convertit les chiffres en valeur numérique.
+ * @brief Converts a string to an integer.
+ * Handles signs and whitespace.
  *
- * @param str Chaîne de caractères à convertir
- * @return Entier résultant de la conversion
+ * @param str String to convert.
+ * @return Converted integer.
  */
 int	ft_atoi(const char *str)
 {
@@ -43,12 +43,10 @@ int	ft_atoi(const char *str)
 }
 
 /**
- * @brief Affiche le statut d'un philosophe
- * Imprime de manière thread-safe un message avec timestamp
- * indiquant l'action en cours du philosophe.
+ * @brief Prints a philosopher's status in a thread-safe manner.
  *
- * @param philo Philosophe concerné
- * @param status Message décrivant l'action du philosophe
+ * @param philo Philosopher whose status is printed.
+ * @param status Description of the philosopher's action.
  */
 void	print_status(t_philo *philo, char *status)
 {
@@ -64,11 +62,10 @@ void	print_status(t_philo *philo, char *status)
 }
 
 /**
- * @brief Affiche un message d'erreur et retourne ERROR
- * Utilitaire pour gérer les erreurs de manière uniforme.
+ * @brief Displays an error message and returns ERROR.
  *
- * @param msg Message d'erreur à afficher
- * @return Toujours ERROR
+ * @param msg Error message to display.
+ * @return Always returns ERROR.
  */
 int	error_exit(char *msg)
 {
@@ -77,10 +74,10 @@ int	error_exit(char *msg)
 }
 
 /**
- * @brief Récupère l'état actuel de la simulation de manière thread-safe
+ * @brief Retrieves the current simulation status in a thread-safe manner.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return true si la simulation est en cours, false sinon
+ * @param table Main structure containing simulation data.
+ * @return true if simulation is running, false otherwise.
  */
 bool	get_simulation_status(t_table *table)
 {

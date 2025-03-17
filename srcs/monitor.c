@@ -6,19 +6,17 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:13:45 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/17 17:06:18 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 18:43:48 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Modifie l'état de la simulation
- * Met à jour de manière thread-safe la variable qui indique
- * si la simulation est toujours en cours.
+ * @brief Sets the simulation status in a thread-safe manner.
  *
- * @param table Structure principale contenant les données de la simulation
- * @param status Nouvel état de la simulation (true=en cours, false=terminée)
+ * @param table Main structure containing simulation data.
+ * @param status New simulation status (true = running, false = stopped).
  */
 void	set_simulation_status(t_table *table, bool status)
 {
@@ -28,13 +26,12 @@ void	set_simulation_status(t_table *table, bool status)
 }
 
 /**
- * @brief Vérifie si un philosophe est mort de faim
- * Compare le temps écoulé depuis le dernier repas avec le temps limite,
- * et arrête la simulation si un philosophe est mort.
+ * @brief Checks if a philosopher has starved.
+ * Compares the time since the last meal with the time-to-die threshold.
  *
- * @param table Structure principale contenant les données de la simulation
- * @param i Pointeur vers l'index du philosophe à vérifier
- * @return true si un philosophe est mort, false sinon
+ * @param table Main structure containing simulation data.
+ * @param i Pointer to the philosopher index being checked.
+ * @return true if a philosopher has died, false otherwise.
  */
 bool	check_death(t_table *table, int *i)
 {
@@ -60,12 +57,11 @@ bool	check_death(t_table *table, int *i)
 }
 
 /**
- * @brief Vérifie si tous les philosophes ont mangé suffisamment
- * Compte combien de philosophes ont atteint le nombre de repas requis,
- * et arrête la simulation si tous l'ont atteint.
+ * @brief Checks if all philosophers have eaten the required number of meals.
+ * If all have reached their meal limit, the simulation stops.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return true si tous les philosophes ont mangé suffisamment, false sinon
+ * @param table Main structure containing simulation data.
+ * @return true if all have eaten enough, false otherwise.
  */
 bool	check_all_ate(t_table *table)
 {
@@ -93,12 +89,11 @@ bool	check_all_ate(t_table *table)
 }
 
 /**
- * @brief Routine du thread moniteur
- * Surveille continuellement les philosophes pour détecter
- * si l'un d'eux meurt ou si tous ont mangé suffisamment.
+ * @brief Monitor thread routine.
+ * Continuously checks if a philosopher dies or if all have eaten enough.
  *
- * @param arg Pointeur vers la structure table
- * @return NULL à la fin de l'exécution
+ * @param arg Pointer to the table structure.
+ * @return NULL when execution ends.
  */
 void	*monitor_routine(void *arg)
 {

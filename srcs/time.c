@@ -6,18 +6,16 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:12:56 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:38:48 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 19:20:33 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Obtient le temps actuel en millisecondes
- * Utilise gettimeofday pour récupérer le temps système
- * et le convertit en millisecondes.
+ * @brief Gets the current time in milliseconds.
  *
- * @return Temps actuel en millisecondes
+ * @return Current time in milliseconds.
  */
 long	get_time_ms(void)
 {
@@ -28,13 +26,11 @@ long	get_time_ms(void)
 }
 
 /**
- * @brief Fonction d'attente précise en millisecondes
- * Implémente une attente active plus précise que usleep
- * pour les durées spécifiées. Vérifie périodiquement si la simulation
- * doit continuer et retourne prématurément si elle doit s'arrêter.
+ * @brief Implements a precise sleep function.
+ * Periodically checks if the simulation is still running.
  *
- * @param ms Durée d'attente en millisecondes
- * @param table Structure principale contenant les données de la simulation
+ * @param ms Duration to sleep in milliseconds.
+ * @param table Main structure containing simulation data.
  */
 void	ft_sleep(long ms, t_table *table)
 {
@@ -52,10 +48,10 @@ void	ft_sleep(long ms, t_table *table)
 }
 
 /**
- * @brief Calcule le temps écoulé depuis le début de la simulation
+ * @brief Computes elapsed time since the simulation started.
  *
- * @param table Structure principale contenant les données de la simulation
- * @return Temps écoulé en millisecondes
+ * @param table Main structure containing simulation data.
+ * @return Elapsed time in milliseconds.
  */
 long	time_since_start(t_table *table)
 {

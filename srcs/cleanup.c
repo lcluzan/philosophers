@@ -6,18 +6,18 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:14:42 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:30:02 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 18:35:04 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /**
- * @brief Détruit tous les mutex de la table
- * Libère les mutex d'impression, d'état de simulation et pour chaque philosophe,
- * détruit les mutex des fourchettes et des repas.
+ * @brief Destroys all mutexes used in the simulation.
+ * This includes the print mutex, simulation state mutex, and each philosopher's
+ * fork and meal mutexes.
  *
- * @param table Structure principale contenant les données de la simulation
+ * @param table Main structure containing simulation data.
  */
 void	destroy_mutexes(t_table *table)
 {
@@ -35,11 +35,10 @@ void	destroy_mutexes(t_table *table)
 }
 
 /**
- * @brief Nettoie les ressources allouées pour la simulation
- * Détruit tous les mutex et libère la mémoire allouée pour les philosophes
- * et les fourchettes.
+ * @brief Cleans up allocated resources for the simulation.
+ * Destroys mutexes and frees allocated memory for philosophers and forks.
  *
- * @param table Structure principale contenant les données de la simulation
+ * @param table Main structure containing simulation data.
  */
 void	cleanup(t_table *table)
 {
