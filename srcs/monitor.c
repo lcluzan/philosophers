@@ -6,7 +6,7 @@
 /*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:13:45 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/16 18:36:51 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/17 17:06:18 by lcluzan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	*monitor_routine(void *arg)
 			break ;
 		if (check_all_ate(table))
 			break ;
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }
