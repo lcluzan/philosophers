@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lcluzan <lcluzan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nouillebobby <nouillebobby@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 16:12:29 by lcluzan           #+#    #+#             */
-/*   Updated: 2025/03/17 19:23:07 by lcluzan          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:01:00 by nouillebobb      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ft_atoi(const char *str)
 		result = result * 10 + (*str - '0');
 		str++;
 	}
+	if (*str != '\0')
+		return (0);
 	return (result * sign);
 }
 
